@@ -1,7 +1,7 @@
 kind: Job
 apiVersion: batch/v1
 metadata:
-  name: test-job
+  name: sample-batch-job
   namespace: acs-rox
 spec:
   template:
@@ -10,7 +10,7 @@ spec:
       namespace: acs-rox
     spec:
       containers:
-        - name: argotest
+        - name: sample-batch-job
           image: registry.access.redhat.com/ubi8/ubi:8.6-903.1661794351
           env:
           - name: ACS_ADMIN_PASSWORD
