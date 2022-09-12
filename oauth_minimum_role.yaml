@@ -4,6 +4,7 @@ metadata:
   name: oauth-minimum-role
   namespace: acs-rox
   annotations:
+    phils: container
 spec:
   template:
     metadata:
