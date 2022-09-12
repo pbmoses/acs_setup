@@ -7,7 +7,6 @@ metadata:
 spec:
   template:
     metadata:
-      name: argotest
       namespace: acs-rox
     spec:
       containers:
