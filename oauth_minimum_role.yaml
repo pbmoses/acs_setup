@@ -1,0 +1,25 @@
+kind: Job
+apiVersion: batch/v1
+metadata:
+  name: sample-batch-job
+  namespace: acs-rox
+  annotations:
+spec:
+  template:
+    metadata:
+      name: argotest
+      namespace: acs-rox
+    spec:
+      containers:
+        - name: sample-batch-job
+          image: registry.access.redhat.com/ubi8/ubi:8.6-903.1661794351
+          env:
+          - name: ACS_ADMIN_PASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: central-htpasswd
+                key: password
+          - name: CENTRAL
+            value: https://central-acs-rox.apps.pmo-sno7.pmo.ocp.philmoses.com:443
+          command: [ "curl", "-k", "-u", "admin:$(ACS_ADMIN_PASSWORD)", "--header "Content-Type: application/json", "-X POST", "https://${CENTRAL}/v1/groupsbatch" -d "{"previous_groups":[],"required_groups":[{"props":{"authProviderId":"'"${AUTH_ID}"'"},"roleName":"Analyst"}]}"]
+      restartPolicy: Never
