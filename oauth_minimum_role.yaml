@@ -6,6 +6,7 @@ metadata:
   annotations:
     argocd.argoproj.io/compare-options: IgnoreExtraneous
 spec:
+  ttlSecondsAfterFinished: 0
   template:
     metadata:
       name: argotest
