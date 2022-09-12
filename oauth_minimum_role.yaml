@@ -4,6 +4,7 @@ metadata:
   name: oauth-minimum-role
   namespace: acs-rox
   annotations:
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
 spec:
   template:
     metadata:
