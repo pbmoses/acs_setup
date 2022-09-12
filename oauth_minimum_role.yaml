@@ -22,6 +22,6 @@ spec:
           - name: CENTRAL
             value: https://central-acs-rox.apps.pmo-sno7.pmo.ocp.philmoses.com:443
           command: [ "curl"]
-          args: [ "-u", "admin:$(ACS_ADMIN_PASSWORD)", "--header", "Content-Type: application/json", "-X", "POST", "https://${CENTRAL}/v1/groupsbatch", "-d", "{"previous_groups":[]"}" ]
+          args: [ "-u", "admin:$(ACS_ADMIN_PASSWORD)", "--header", "Content-Type: application/json", "-X", "POST", "https://${CENTRAL}/v1/groupsbatch", "-d", "{\"previous_groups\":[]}" ]
   ## -d '{"previous_groups":[],"required_groups":[{"props":{"authProviderId":"12345"},"roleName":"Analyst"}]}'"]
       restartPolicy: Never
