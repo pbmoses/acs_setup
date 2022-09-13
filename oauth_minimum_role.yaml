@@ -16,7 +16,7 @@ spec:
           image: registry.access.redhat.com/ubi8/ubi:8.6-903.1661794351
           envFrom:
           - configMapRef:
-            name: acs-auth-roles
+              name: acs-auth-roles
           env:
           - name: ACS_ADMIN_PASSWORD
             valueFrom: 
