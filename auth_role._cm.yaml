@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: acs-auth-roles
-  namespace: acs
+  namespace: acs-rox
 data:
   authroles.yaml: |
     Admin:
