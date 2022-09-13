@@ -14,9 +14,12 @@ spec:
       containers:
         - name: sample-batch-job
           image: registry.access.redhat.com/ubi8/ubi:8.6-903.1661794351
-          envFrom:
-          - configMapRef:
+          env:
+          - name: ACS-AUTH-ROLES
+            valueFrom:
+              configMapKeyRef:
               name: acs-auth-roles
+              key: authroles.json             
           env:
           - name: ACS_ADMIN_PASSWORD
             valueFrom: 
