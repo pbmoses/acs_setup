@@ -4,7 +4,80 @@ metadata:
   name: acs-auth-roles
   namespace: acs-rox
 data:
-  authroles.yaml: |
-    Admin:
-    - OPENSHIFT_ADMIN
-    - BLAH
+  authroles.json: |
+    {
+    "requiredGroups": [
+        {
+            "props": {
+                "id": "",
+                "authProviderId": "38c7afcd-d943-4163-bdb0-7787f9cdb3a4",
+                "key": "groups",
+                "value": "app_K8S_Dev_Admin"
+            },
+            "roleName": "Admin"
+        },
+        {
+            "props": {
+                "id": "",
+                "authProviderId": "38c7afcd-d943-4163-bdb0-7787f9cdb3a4",
+                "key": "groups",
+                "value": "app_K8S_Dev_Analyst"
+            },
+            "roleName": "Analyst"
+        },
+        {
+            "props": {
+                "id": "",
+                "authProviderId": "38c7afcd-d943-4163-bdb0-7787f9cdb3a4",
+                "key": "groups",
+                "value": "app_K8S_Dev_ContinuousIntegration"
+            },
+            "roleName": "ContinuousIntegration"
+        },
+        {
+            "props": {
+                "id": "",
+                "authProviderId": "38c7afcd-d943-4163-bdb0-7787f9cdb3a4",
+                "key": "groups",
+                "value": "app_K8S_Dev_Admin"
+            },
+            "roleName": "Admin"
+        },
+        {
+            "props": {
+                "id": "",
+                "authProviderId": "38c7afcd-d943-4163-bdb0-7787f9cdb3a4",
+                "key": "groups",
+                "value": "app_K8S_Dev_ScopeManager"
+            },
+            "roleName": "ScopeManager"
+        },
+        {
+            "props": {
+                "id": "",
+                "authProviderId": "38c7afcd-d943-4163-bdb0-7787f9cdb3a4",
+                "key": "groups",
+                "value": "app_K8S_Dev_SensorCreator"
+            },
+            "roleName": "SensorCreator"
+        },
+        {
+            "props": {
+                "id": "",
+                "authProviderId": "38c7afcd-d943-4163-bdb0-7787f9cdb3a4",
+                "key": "groups",
+                "value": "app_K8S_Dev_VulnerabilityManagementApprover"
+            },
+            "roleName": "VulnerabilityManagementApprover"
+        },
+        {
+            "props": {
+                "id": "",
+                "authProviderId": "38c7afcd-d943-4163-bdb0-7787f9cdb3a4",
+                "key": "groups",
+                "value": "app_K8S_Dev_VulnerabilityManagementRequester"
+            },
+            "roleName": "VulnerabilityManagementRequester"
+        }
+    ]
+}
