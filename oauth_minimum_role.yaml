@@ -17,9 +17,9 @@ spec:
           env:
             - name: ACS-AUTH-ROLES
               valueFrom:
-                configMapRef:
-                name: acs-auth-roles
-                key: authroles.json           
+                configMapKeyRef:
+                  name: acs-auth-roles
+                  key: authroles.json           
             - name: ACS_ADMIN_PASSWORD
               valueFrom: 
                 secretKeyRef:
