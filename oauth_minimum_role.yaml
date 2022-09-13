@@ -15,17 +15,16 @@ spec:
         - name: sample-batch-job
           image: registry.access.redhat.com/ubi8/ubi:8.6-903.1661794351
           env:
-          - name: ACS-AUTH-ROLES
-            valueFrom:
-              configMapKeyRef:
-              name: acs-auth-roles
-              key: authroles.json             
-          env:
-          - name: ACS_ADMIN_PASSWORD
-            valueFrom: 
-              secretKeyRef:
-                name: central-htpasswd
-                key: password
+            - name: ACS-AUTH-ROLES
+              valueFrom:
+                configMapRef:
+                name: acs-auth-roles
+                key: authroles.json           
+            - name: ACS_ADMIN_PASSWORD
+              valueFrom: 
+                secretKeyRef:
+                  name: central-htpasswd
+                  key: password
           - name: CENTRAL
             value: https://central-acs-rox.apps.pmo-sno7.pmo.ocp.philmoses.com:443
           command: ["echo", "$(ACS-AUTH-ROLES)", "$(ACS_ADMIN_PASSWORD)"]
