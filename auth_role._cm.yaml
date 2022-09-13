@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: acs-auth-roles
+  namespace: acs
+data:
+  authroles.yaml: |
+    Admin:
+    - OPENSHIFT_ADMIN
