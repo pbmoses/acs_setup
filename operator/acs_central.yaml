@@ -5,6 +5,8 @@ metadata:
     - uninstall-helm-release
   name: stackrox-central-services
   namespace: acs-rox
+  annotations:     
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   central:
     exposure:
