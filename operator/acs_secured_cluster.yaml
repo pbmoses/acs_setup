@@ -4,6 +4,8 @@ metadata:
   generation: 1
   name: stackrox-secured-cluster-services
   namespace: acs-rox
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   admissionControl:
     bypass: BreakGlassAnnotation
