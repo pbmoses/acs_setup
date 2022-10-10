@@ -1,0 +1,8 @@
+bases:
+- ../../base
+configMapGenerator:
+- name: acs-auth-roles 
+  files:
+  - authroles.json 
+generatorOptions:
+ disableNameSuffixHash: true
