@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: acs-auth-roles
-  namespace: acs-rox
+  namespace: stackrox
   annotations:
     owner: pbmoses
 data:
