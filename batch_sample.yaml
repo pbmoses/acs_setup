@@ -2,13 +2,13 @@ kind: Job
 apiVersion: batch/v1
 metadata:
   name: sample-batch-job
-  namespace: acs-rox
+  namespace: stackrox
   annotations:
 spec:
   template:
     metadata:
       name: argotest
-      namespace: acs-rox
+      namespace: stackrox
     spec:
       containers:
         - name: sample-batch-job
