@@ -26,7 +26,7 @@ spec:
                   name: central-htpasswd
                   key: password
             - name: CENTRAL
-              value: https://central-acs-rox.apps.pmo-sno7.pmo.ocp.philmoses.com:443
+              value: https://central-stackrox.apps.pmo-sno7.pmo.ocp.philmoses.com:443
           command: [ "curl" ]
           args: ["-k", "-u", "admin:$(ACS_ADMIN_PASSWORD)", "--header", "Content-Type: application/json", "-X", "POST", "$(CENTRAL)/v1/groupsbatch", "-d", "$(ACS-AUTH-ROLES)"]
       restartPolicy: Never
