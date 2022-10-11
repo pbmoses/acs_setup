@@ -2,7 +2,7 @@ kind: Job
 apiVersion: batch/v1
 metadata:
   name: oauth-minimum-role
-  namespace: acs-rox
+  namespace: stackrox
   annotations:
     argocd.argoproj.io/hook: PostSync
 spec:
