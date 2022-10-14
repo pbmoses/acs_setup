@@ -9,7 +9,7 @@ spec:
   ttlSecondsAfterFinished: 60
   template:
     metadata:
-      namespace: acs-rox
+      namespace: stackrox
     spec:
       containers:
         - name: sample-batch-job
