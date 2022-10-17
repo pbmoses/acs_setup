@@ -4,7 +4,7 @@ metadata:
   name: acs-auth-roles
   namespace: stackrox
   annotations:
-    owner: pbmoses
+    owner: nik
 data:
   authroles.json: |
      { "previous_groups": [], "required_groups": [ { "props": { "authProviderId": "c1fc0b48-0ea7-43ca-9bd1-b2383f8c9df7", "key": "groups", "value": "Analyst_test6" }, "roleName": "Analyst" } ] }
