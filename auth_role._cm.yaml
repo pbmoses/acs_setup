@@ -7,4 +7,4 @@ metadata:
     owner: pbmoses
 data:
   authroles.json: |
-     { "previous_groups": [], "required_groups": [ { "props": { "authProviderId": "c1fc0b48-0ea7-43ca-9bd1-b2383f8c9df7", "key": "groups", "value": "Analyst_test7" }, "roleName": "Analyst" } ] }
+     { "previous_groups": [], "required_groups": [ { "props": { "authProviderId": "c1fc0b48-0ea7-43ca-9bd1-b2383f8c9df7", "key": "groups", "value": "ACS-demo-user" }, "roleName": "Analyst" } ] }
