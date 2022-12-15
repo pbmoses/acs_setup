@@ -103,7 +103,7 @@ spec:
               value: "true"
             - name: ROX_HELM_CLUSTER_CONFIG_FP
               value: 533e782f968b3cd903e88899cce450eeb98535cf8d19fab9ca69d94f74873b7b
-          image: registry.redhat.io/advanced-cluster-security/rhacs-main-rhel8:3.72.1
+          image: registry.redhat.io/advanced-cluster-security/rhacs-main-rhel8:3.73.0
           name: sensor
           ports:
             - containerPort: 8443
