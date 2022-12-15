@@ -1,0 +1,210 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sensor
+    app.kubernetes.io/component: sensor
+    app.kubernetes.io/instance: stackrox-secured-cluster-services
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: stackrox
+    app.kubernetes.io/part-of: stackrox-secured-cluster-services
+    app.kubernetes.io/version: 3.73.0
+    auto-upgrade.stackrox.io/component: sensor
+    helm.sh/chart: stackrox-secured-cluster-services-73.0.0
+  name: sensor
+  namespace: stackrox
+spec:
+  minReadySeconds: 15
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: sensor
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        email: support@stackrox.com
+        meta.helm.sh/release-name: stackrox-secured-cluster-services
+        meta.helm.sh/release-namespace: stackrox
+        owner: stackrox
+        traffic.sidecar.istio.io/excludeInboundPorts: 8443,9443
+      creationTimestamp: null
+      labels:
+        app: sensor
+        app.kubernetes.io/component: sensor
+        app.kubernetes.io/instance: stackrox-secured-cluster-services
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: stackrox
+        app.kubernetes.io/part-of: stackrox-secured-cluster-services
+        app.kubernetes.io/version: 3.73.0
+        helm.sh/chart: stackrox-secured-cluster-services-73.0.0
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                  - key: cloud.google.com/gke-preemptible
+                    operator: NotIn
+                    values:
+                      - "true"
+              weight: 100
+            - preference:
+                matchExpressions:
+                  - key: node-role.kubernetes.io/infra
+                    operator: Exists
+              weight: 50
+            - preference:
+                matchExpressions:
+                  - key: node-role.kubernetes.io/compute
+                    operator: Exists
+              weight: 25
+            - preference:
+                matchExpressions:
+                  - key: node-role.kubernetes.io/master
+                    operator: DoesNotExist
+              weight: 100
+            - preference:
+                matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+              weight: 100
+      containers:
+        - command:
+            - kubernetes-sensor
+          env:
+            - name: K8S_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: ROX_CENTRAL_ENDPOINT
+              value: central.stackrox.svc.cluster.local:443
+            - name: ROX_ADVERTISED_ENDPOINT
+              value: sensor.stackrox.svc:443
+            - name: ROX_OPENSHIFT_API
+              value: "true"
+            - name: ROX_SCANNER_GRPC_ENDPOINT
+              value: scanner.stackrox.svc:8443
+            - name: ROX_LOCAL_IMAGE_SCANNING_ENABLED
+              value: "true"
+            - name: ROX_HELM_CLUSTER_CONFIG_FP
+              value: 533e782f968b3cd903e88899cce450eeb98535cf8d19fab9ca69d94f74873b7b
+          image: registry.redhat.io/advanced-cluster-security/rhacs-main-rhel8@sha256:04513d93330ff33714cf5f5b41d260e1242eaecd715a631eb7a997cda0d6843e
+          imagePullPolicy: IfNotPresent
+          name: sensor
+          ports:
+            - containerPort: 8443
+              name: api
+              protocol: TCP
+            - containerPort: 9443
+              name: webhook
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ready
+              port: 9443
+              scheme: HTTPS
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 4Gi
+            requests:
+              cpu: 500m
+              memory: 1Gi
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/log/stackrox/
+              name: varlog
+            - mountPath: /etc/ssl/
+              name: sensor-etc-ssl-volume
+            - mountPath: /etc/pki/ca-trust/
+              name: sensor-etc-pki-volume
+            - mountPath: /run/secrets/stackrox.io/certs/
+              name: certs
+              readOnly: true
+            - mountPath: /usr/local/share/ca-certificates/
+              name: additional-ca-volume
+              readOnly: true
+            - mountPath: /var/cache/stackrox
+              name: cache
+            - mountPath: /run/secrets/stackrox.io/helm-cluster-config/
+              name: helm-cluster-config
+              readOnly: true
+            - mountPath: /run/secrets/stackrox.io/helm-effective-cluster-name/
+              name: helm-effective-cluster-name
+              readOnly: true
+            - mountPath: /etc/pki/injected-ca-trust/
+              name: trusted-ca-volume
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: sensor
+      serviceAccountName: sensor
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: certs
+          secret:
+            defaultMode: 420
+            items:
+              - key: sensor-cert.pem
+                path: cert.pem
+              - key: sensor-key.pem
+                path: key.pem
+              - key: ca.pem
+                path: ca.pem
+            secretName: sensor-tls
+        - emptyDir: {}
+          name: sensor-etc-ssl-volume
+        - emptyDir: {}
+          name: sensor-etc-pki-volume
+        - name: additional-ca-volume
+          secret:
+            defaultMode: 420
+            optional: true
+            secretName: additional-ca-sensor
+        - emptyDir: {}
+          name: varlog
+        - emptyDir: {}
+          name: cache
+        - name: helm-cluster-config
+          secret:
+            defaultMode: 420
+            optional: true
+            secretName: helm-cluster-config
+        - name: helm-effective-cluster-name
+          secret:
+            defaultMode: 420
+            optional: true
+            secretName: helm-effective-cluster-name
+        - configMap:
+            defaultMode: 420
+            items:
+              - key: ca-bundle.crt
+                path: tls-ca-bundle.pem
+            name: injected-cabundle-stackrox-secured-cluster-services
+            optional: true
+          name: trusted-ca-volume
