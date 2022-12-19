@@ -39,7 +39,8 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: stackrox
         app.kubernetes.io/part-of: stackrox-secured-cluster-services
-        app.kubernetes.io/version: 3.73.0
+        app.kubernetes.io/version: 
+        .0
         helm.sh/chart: stackrox-secured-cluster-services-73.0.0
     spec:
       affinity:
@@ -103,7 +104,7 @@ spec:
               value: "true"
             - name: ROX_HELM_CLUSTER_CONFIG_FP
               value: 533e782f968b3cd903e88899cce450eeb98535cf8d19fab9ca69d94f74873b7b
-          image: registry.redhat.io/advanced-cluster-security/rhacs-main-rhel8:3.73.0
+          image: registry.redhat.io/advanced-cluster-security/rhacs-main-rhel8:3.73.1
           name: sensor
           ports:
             - containerPort: 8443
