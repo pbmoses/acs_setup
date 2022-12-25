@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: stackrox-backup
+  namespace: stackrox
+spec:
+  parallelism: 1
+  completions: 1
+  backoffLimit: 6
+  template:
+    metadata:
+      namespace: stackrox
+      creationTimestamp: null
+    spec:
+      volumes:
+        - name: stackrox-backups
+          persistentVolumeClaim:
+            claimName: stackrox-backups
+      containers:
+        - resources: {}
+          env:
+            - name: ROX_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: rox
+                  key: token
+            - name: CENTRAL
+              value: 'https://central-stackrox.apps.pmo-sno7.pmo.ocp.philmoses.com:443'
+          terminationMessagePath: /dev/termination-log
+          name: stackrox-backups
+          command: ['roxctl','central','backup']
+          args: ['--output','/mnt','-e','central-stackrox.apps.pmo-sno7.pmo.ocp.philmoses.com:443', '--insecure-skip-tls-verify']
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: stackrox-backups
+              mountPath: /mnt
+          terminationMessagePolicy: File
+          image: >-
+            registry.redhat.io/advanced-cluster-security/rhacs-roxctl-rhel8:3.71.2
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  ttlSecondsAfterFinished: 60
+  completionMode: NonIndexed
+  suspend: false
