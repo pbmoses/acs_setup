@@ -25,7 +25,7 @@ spec:
                   name: rox
                   key: token
             - name: CENTRAL
-              value: 'https://central-stackrox.apps.pmo-sno7.pmo.ocp.philmoses.com:443'
+              value: 'central-stackrox.apps.pmo-sno7.pmo.ocp.philmoses.com:443'
           terminationMessagePath: /dev/termination-log
           name: stackrox-backups
           command: ['roxctl','central','backup']
