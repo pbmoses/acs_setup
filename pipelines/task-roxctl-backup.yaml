@@ -1,0 +1,32 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: roxctl-backup
+  namespace: stackrox
+spec:
+  steps:
+    - command:
+        - roxctl
+        - central
+        - backup
+        - '-e'
+        - 'central-stackrox.apps.pmo-sno7.pmo.ocp.philmoses.com:443'
+        - '--output'
+        - stackrox-backups
+        - '--insecure-skip-tls-verify'
+      env:
+        - name: ROX_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: token
+              name: rox
+      image: 'registry.redhat.io/advanced-cluster-security/rhacs-roxctl-rhel8:3.71.2'
+      name: ''
+      resources: {}
+      volumeMounts:
+        - mountPath: /stackrox-backups
+          name: stackrox-backups
+  volumes:
+    - name: stackrox-backups
+      persistentVolumeClaim:
+        claimName: stackrox-backups
