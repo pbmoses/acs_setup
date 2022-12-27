@@ -1,0 +1,13 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: backup-pipeline
+  namespace: stackrox
+spec:
+  tasks:
+    - name: roxctl-backup
+      taskRef:
+        kind: Task
+        name: roxctl-backup
+  workspaces:
+    - name: outpu
