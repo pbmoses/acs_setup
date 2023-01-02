@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: podman-pull-list
+  namespace: stackrox
+spec:
+  tasks:
+    - name: podman-list
+      runAfter:
+        - podman-pull
+      taskRef:
+        kind: Task
+        name: podman-list
+    - name: podman-pull
+      taskRef:
+        kind: Task
+        name: podman-pull
