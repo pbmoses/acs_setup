@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: podman-pull-list
+  namespace: stackrox
+spec:
+  stepTemplate:
+    name: ""
+    resources: {}
+    volumeMounts:
+      - mountPath: /var/lib/containers
+        name: varlibc
+  steps:
+    - command:
+        - podman
+        - pull
+        - redhat-openjdk-18/openjdk18-openshift
+      image: registry.redhat.io/rhel8/podman
+      name: podman-pull
+      resources: {}
+  volumes:
+    - name: varlibc
+      persistentVolumeClaim:
+        claimName: podman
