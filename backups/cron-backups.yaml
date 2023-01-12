@@ -21,13 +21,13 @@ spec:
                 - --output
                 - /mnt
                 - -e
-                - ###insertendpointhere
+                - ###insert end point here or be professional and use a variable 
                 - --insecure-skip-tls-verify
               command:
                 - roxctl
                 - central
                 - backup
-              env:
+              env:  ###either retreieve the rox pass or create a token and store it in a secret the set the env, don't use passwords in Git!
                 - name: ACS_ADMIN_PASSWORD
                   valueFrom:
                     secretKeyRef:
